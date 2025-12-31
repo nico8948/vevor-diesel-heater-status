@@ -21,7 +21,7 @@ see also: https://github.com/spin877/Bruciatore_BLE
 1. Ensure your Bluetooth device is enabled.
    - systemctl enable bluetooth
    - use bluetoothctl to scan for the mac addresses.
-2. Run the Python script: 
+2. Run the Python script:  vevorheaterstatus.py
 
 ## Supported Commands
 
