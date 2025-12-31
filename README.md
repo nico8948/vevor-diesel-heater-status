@@ -26,7 +26,7 @@ see also: https://github.com/spin877/Bruciatore_BLE
 ## Supported Commands
 
 Available Commands:
--  python3 vevorheaterstatus.py <mac address>
+-  python3 vevorheaterstatus.py macaddress
   
 ## Product Information
 
