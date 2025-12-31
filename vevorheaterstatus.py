@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import asyncio
 from bleak import BleakClient
 import sys
@@ -40,15 +42,22 @@ def parse(frame: bytes):
         return None
 
     running_state_map = {
-        0: "Opwarmen",
+        0: "Uit",
         1: "Zelf test",
         2: "Onsteken",
         3: "Verwarmen",
         4: "Uitzetten",
         }
+    heater_on_off = {
+        0: "Uit",
+        1: "Aan",
+    }
+#    heater_on_off {
+#        0: "Off",
+#        1: "On",
 
 #    running_state_map = {
-#        0x00: "Warmup",
+#        0x00: "Off",
 #        0x01: "Self test running",
 #        0x02: "Ignition",
 #        0x03: "Heating",
@@ -56,7 +65,7 @@ def parse(frame: bytes):
 #        }
 
     frames = { 
-        "heater_on": frame[3],
+        "heater_on": heater_on_off[frame[3]],
         "error": frame[4],
         "step": running_state_map[frame[5]],
         "mode": frame[8],
