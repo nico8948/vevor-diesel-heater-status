@@ -1,6 +1,6 @@
 # Vevor diesel heater status
 
-This project provides a Python script for getting the status out off VEVOR diesel air heater.
+This project provides a Python script for getting the status out off a VEVOR diesel air heater.
 
 ## Description
 
