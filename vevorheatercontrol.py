@@ -91,6 +91,9 @@ class DieselHeater:
         await self.client.start_notify(CHAR_UUID, self.on_notify)
 #        print("✅ BLE connected")
 
+    async def disconnect(self):
+        await self.client.disconnect()
+
     async def send(self, cmd, d0=0, d1=0):
         pkt = build_packet(self.passkey, cmd, d0, d1)
         await self.client.write_gatt_char(CHAR_UUID, pkt)
@@ -122,21 +125,43 @@ class DieselHeater:
 
 
 async def main():
-    if len(sys.argv) < 2:
-        print(f"Usage: {sys.argv[0]} <mac address> ")
+    if len(sys.argv) < 3:
+        print(f"Usage: {sys.argv[0]} <mac address> command:")
+        print(f"Usage: {sys.argv[0]} <mac address> p1/p0 (On/Off)")
+        print(f"Usage: {sys.argv[0]} <mac address> m1/m0 (Auto temperature On/Off)")
+        print(f"Usage: {sys.argv[0]} <mac address> t8 to t38 (Set temperature from 8 to 32C)")
+        print(f"Usage: {sys.argv[0]} <mac address> l1 to t10 (Set heatine level from 1 to 10)")
+        print(f"Usage: {sys.argv[0]} <mac address> s (Get status)")
         sys.exit(1)
     heater = DieselHeater(
-        mac=str(sys.argv[1]),   # <-- your heater MAC
+        mac=str(sys.argv[1]),
         passkey=1234               # <-- your passkey
     )
-
     await heater.connect()
-    await heater.poll()
-#    await asyncio.sleep(10)
-
-#    while True:
-#        await heater.poll()
-#        await asyncio.sleep(10)
+    cmd = str(sys.argv[2])
+    if cmd in ["p0", "p1"]:
+        if cmd == "p1":
+            await heater.power(1)
+        else:
+            await heater.power(0)
+    elif cmd in ["m0", "m1"]:
+        if cmd == "m1":
+            await heater.set_mode(1)
+        else:
+            await heater.set_mode(0)
+    elif cmd.startswith("t"):
+        temp = int(cmd[1:])
+        if 8 <= temp <= 36:
+           await heater.set_temp(temp)
+    elif cmd.startswith("l"):
+        level = int(cmd[1:])
+        if 0 <= level <= 10:
+           await heater.set_level(level)
+    elif cmd in ["s"]:
+        await heater.poll()
+    else:
+        print(f"Invalid command {cmd}")
+    await heater.disconnect()
 
 
 asyncio.run(main())

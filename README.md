@@ -1,6 +1,6 @@
-# Vevor diesel heater status
+# Vevor diesel heater control and status
 
-This project provides a Python script for getting the status out off a VEVOR diesel air heater.
+This project provides a Python script for getting the control and status off a VEVOR diesel air heater.
 
 ## Description
 
@@ -23,10 +23,15 @@ see also: https://github.com/spin877/Bruciatore_BLE
    - use bluetoothctl to scan for the mac addresses.
 2. Run the Python script:  vevorheaterstatus.py
 
+
 ## Supported Commands
 
 Available Commands:
--  python3 vevorheaterstatus.py macaddress
+Usage: vevorheatercontrol.py <mac address> command:
+
+vevorheatercontrol.py <mac address> p1/p0 (On/Off)
+vevorheatercontrol.py <mac address> l1 to t10 (Set heating level from 1 to 10)
+vevorheatercontrol.py <mac address> s (Get status)
   
 ## Product Information
 
